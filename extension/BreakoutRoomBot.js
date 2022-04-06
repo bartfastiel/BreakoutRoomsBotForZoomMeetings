@@ -114,7 +114,7 @@ var versionReply$ = versionCommand$.pipe(
 )
 
 var breakoutRoomListCommand$ = userMessageMap$.pipe(
-    rxjs.operators.filter(({ message }) => message == "!ls"),
+    rxjs.operators.filter(({ message }) => message.text === "!ls"),
 )
 
 var breakoutRoomListReply$ = breakoutRoomListCommand$.pipe(
@@ -228,13 +228,13 @@ var moveRequestQueryFromNameChange$ = nameChange$.pipe(
 )
 
 var chatMoveRequestCommand$ = userMessageMap$.pipe(
-    rxjs.operators.filter(({ message }) => message.startsWith("!mv ")),
+    rxjs.operators.filter(({ message }) => message.text.startsWith("!mv ")),
 )
 
 var moveRequestQueryFromChat$ = chatMoveRequestCommand$.pipe(
     rxjs.operators.map(({ sender, message, senderUserId }) => {
         const regex = /!mv (.+)/;
-        var targetRoomQuery = message.match(regex)[1]
+        var targetRoomQuery = message.text.match(regex)[1]
         return {
             sender: sender,
             senderUserId: senderUserId,
